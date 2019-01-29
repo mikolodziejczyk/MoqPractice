@@ -1,0 +1,25 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio 15
+VisualStudioVersion = 15.0.28306.52
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MoqPractice", "MoqPractice\MoqPractice.csproj", "{EC003021-2342-429F-90B0-F67C9630F91E}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{EC003021-2342-429F-90B0-F67C9630F91E}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{EC003021-2342-429F-90B0-F67C9630F91E}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{EC003021-2342-429F-90B0-F67C9630F91E}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{EC003021-2342-429F-90B0-F67C9630F91E}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {AC5BEC65-5B3C-49DC-AFDC-93B0DFDB795D}
+	EndGlobalSection
+EndGlobal
