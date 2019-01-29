@@ -5,6 +5,10 @@ VisualStudioVersion = 15.0.28306.52
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MoqPractice", "MoqPractice\MoqPractice.csproj", "{EC003021-2342-429F-90B0-F67C9630F91E}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MoqPractice.BL", "MoqPractice.BL\MoqPractice.BL.csproj", "{D84F210D-59A1-4AF3-82BD-AFC2AB727AE7}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MoqPractice.BL.Tests", "MoqPractice.BL.Tests\MoqPractice.BL.Tests.csproj", "{D27BA695-0077-4613-8990-D0E7BFEFE4E7}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -15,6 +19,14 @@ Global
 		{EC003021-2342-429F-90B0-F67C9630F91E}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{EC003021-2342-429F-90B0-F67C9630F91E}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{EC003021-2342-429F-90B0-F67C9630F91E}.Release|Any CPU.Build.0 = Release|Any CPU
+		{D84F210D-59A1-4AF3-82BD-AFC2AB727AE7}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{D84F210D-59A1-4AF3-82BD-AFC2AB727AE7}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{D84F210D-59A1-4AF3-82BD-AFC2AB727AE7}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{D84F210D-59A1-4AF3-82BD-AFC2AB727AE7}.Release|Any CPU.Build.0 = Release|Any CPU
+		{D27BA695-0077-4613-8990-D0E7BFEFE4E7}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{D27BA695-0077-4613-8990-D0E7BFEFE4E7}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{D27BA695-0077-4613-8990-D0E7BFEFE4E7}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{D27BA695-0077-4613-8990-D0E7BFEFE4E7}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
