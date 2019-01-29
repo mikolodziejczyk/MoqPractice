@@ -22,5 +22,45 @@ namespace MoqPractice.BL
         {
             throw new NotImplementedException();
         }
+
+        public virtual int CompanyCount
+        {
+            get
+            {
+                throw new NotImplementedException();
+            }
+        }
+
+        public virtual string Connection
+        {
+            get
+            {
+                throw new NotImplementedException();
+            }
+
+            set
+            {
+                throw new NotImplementedException();
+            }
+        }
+
+        internal virtual bool Ping()
+        {
+            throw new NotImplementedException();
+        }
+
+        protected virtual string GetRepositoryType()
+        {
+            throw new NotImplementedException();
+        }
+
+        public string RepositoryType
+        {
+            get
+            {
+                return GetRepositoryType();
+            }
+        }
+
     }
 }

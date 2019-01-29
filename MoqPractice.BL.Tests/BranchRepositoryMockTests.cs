@@ -5,6 +5,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using Moq.Protected;
 
 namespace MoqPractice.BL.Tests
 {
@@ -19,7 +20,7 @@ namespace MoqPractice.BL.Tests
         [SetUp]
         public void SetUp()
         {
-            branchRepositoryMock = new Mock<BranchRepository>();
+            branchRepositoryMock = new Mock<BranchRepository>(MockBehavior.Loose);
 
             branchRepositoryMock.Setup(x => x.GetAllBranches()).Returns(this.allBranches);
             branchRepositoryMock.Setup(x => x.GetBranchesForCompany(It.IsAny<int>(), It.IsAny<int>())).Returns(this.allBranches);
@@ -29,6 +30,10 @@ namespace MoqPractice.BL.Tests
             branchRepositoryMock.Setup(x => x.GetBranchesForCompany(100, It.IsAny<int>())).Throws(new InvalidOperationException("Company doesn't exist"));
             int itemCount = 100;
             branchRepositoryMock.Setup(x => x.GetBranchPage(It.IsAny<int>(), It.IsAny<int>(), out itemCount)).Returns(this.allBranches);
+            branchRepositoryMock.Setup(x => x.CompanyCount).Returns(23);
+            branchRepositoryMock.SetupProperty(x => x.Connection, "TEST");
+            branchRepositoryMock.Setup(x => x.Ping()).Returns(true);
+            branchRepositoryMock.Protected().Setup<string>("GetRepositoryType").Returns("MyRepository");
 
             branchRepository = branchRepositoryMock.Object;
         }
@@ -87,6 +92,34 @@ namespace MoqPractice.BL.Tests
             branchRepository.GetBranchPage(0, 10, out itemCount);
             Assert.That(itemCount == 100);
 
+        }
+
+        [Test]
+        public void Getter_SetupReturnsFixedValue_SetupProperly()
+        {
+            Assert.That(branchRepository.CompanyCount == 23);
+        }
+
+        [Test]
+        public void GetterAndSetter_SetupReturnsHasInitialValueAndTracksCurrent_SetupProperly()
+        {
+            Assert.That(branchRepository.Connection == "TEST");
+            branchRepository.Connection = "TEST2";
+            Assert.That(branchRepository.Connection == "TEST2");
+        }
+
+        [Test]
+        public void InternalMethod_SetupReturnsValue_SetupProperly()
+        {
+            bool r = branchRepository.Ping();
+            Assert.That(r == true);
+        }
+
+        [Test]
+        public void ProtectedMethod_SetupReturnsValue_SetupProperly()
+        {
+            string r = branchRepository.RepositoryType;
+            Assert.That(r == "MyRepository");
         }
     }
 
