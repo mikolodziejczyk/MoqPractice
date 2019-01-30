@@ -62,5 +62,14 @@ namespace MoqPractice.BL
             }
         }
 
+        public virtual void AddBranches(string[] branchCodes)
+        {
+            foreach (string branchCode in branchCodes) CreateBranch(branchCode);
+        }
+
+        internal virtual bool CreateBranch(string branchCode)
+        {
+            throw new NotImplementedException();
+        }
     }
 }

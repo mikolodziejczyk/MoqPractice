@@ -116,10 +116,19 @@ namespace MoqPractice.BL.Tests
         }
 
         [Test]
-        public void ProtectedMethod_SetupReturnsValue_SetupProperly()
+        public void MockedMethodCallback_WrapperMethodCalled_MockedMethodCalledAsExpected()
         {
-            string r = branchRepository.RepositoryType;
-            Assert.That(r == "MyRepository");
+            List<string> branchesAdded = new List<string>();
+            branchRepositoryMock.Setup(x => x.CreateBranch(It.IsAny<string>())).Returns(true).Callback((string bn) => branchesAdded.Add(bn));
+            branchRepositoryMock.CallBase = true;
+
+            branchRepository.AddBranches(new string[] { "XXX", "YYY", "ZZZ" });
+            Assert.AreEqual(new string[] { "XXX", "YYY", "ZZZ" }, branchesAdded);
+
+            branchRepositoryMock.Verify(x => x.CreateBranch("XXX"), Times.Once);
+            branchRepositoryMock.Verify(x => x.CreateBranch("YYY"), Times.Once);
+            branchRepositoryMock.Verify(x => x.CreateBranch("ZZZ"), Times.Once);
+            branchRepositoryMock.Verify(x => x.CreateBranch(It.IsAny<string>()), Times.Exactly(3));
         }
     }
 
