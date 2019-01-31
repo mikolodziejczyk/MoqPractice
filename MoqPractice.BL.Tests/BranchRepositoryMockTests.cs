@@ -128,8 +128,22 @@ namespace MoqPractice.BL.Tests
             branchRepositoryMock.Verify(x => x.CreateBranch("XXX"), Times.Once);
             branchRepositoryMock.Verify(x => x.CreateBranch("YYY"), Times.Once);
             branchRepositoryMock.Verify(x => x.CreateBranch("ZZZ"), Times.Once);
+            branchRepositoryMock.Verify(x => x.CreateBranch("UUU"), Times.Never, "The method has been called with the UUU branch.");
             branchRepositoryMock.Verify(x => x.CreateBranch(It.IsAny<string>()), Times.Exactly(3));
         }
+
+        [Test]
+        public void MockedInterface_MethodMocked_ReturnsProperValue()
+        {
+            var mock = new Mock<IGreeter>();
+            IGreeter greeter = mock.Object;
+
+            mock.Setup(x => x.GetGreeting(It.IsAny<string>())).Returns((string name) => String.Format("Hello {0}!", name));
+
+            string r = greeter.GetGreeting("World");
+            Assert.That(r == "Hello World!");
+        }
+
     }
 
 }
