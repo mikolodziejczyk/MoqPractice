@@ -116,6 +116,13 @@ namespace MoqPractice.BL.Tests
         }
 
         [Test]
+        public void ProtectedMethod_SetupReturnsValue_SetupProperly()
+        {
+            // branchRepository.RepositoryType calls the protected GetRepositoryType()
+            Assert.That(branchRepository.RepositoryType == "MyRepository");
+        }
+
+        [Test]
         public void MockedMethodCallback_WrapperMethodCalled_MockedMethodCalledAsExpected()
         {
             List<string> branchesAdded = new List<string>();
