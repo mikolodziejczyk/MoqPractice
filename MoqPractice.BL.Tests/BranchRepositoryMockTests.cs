@@ -1,11 +1,10 @@
-﻿using Moq;
+﻿
 using NUnit.Framework;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using Moq.Protected;
 
 namespace MoqPractice.BL.Tests
 {
@@ -13,29 +12,14 @@ namespace MoqPractice.BL.Tests
     class BranchRepositoryMockTests
     {
         BranchRepository branchRepository;
-        Mock<BranchRepository> branchRepositoryMock;
+
         string[] allBranches = new string[] { "A", "B", "C" };
         string[] company3Branches = new string[] { "X", "Y", "Z" };
 
         [SetUp]
         public void SetUp()
         {
-            branchRepositoryMock = new Mock<BranchRepository>(MockBehavior.Loose);
-
-            branchRepositoryMock.Setup(x => x.GetAllBranches()).Returns(this.allBranches);
-            branchRepositoryMock.Setup(x => x.GetBranchesForCompany(It.IsAny<int>(), It.IsAny<int>())).Returns(this.allBranches);
-            branchRepositoryMock.Setup(x => x.GetBranchesForCompany(3, It.IsAny<int>())).Returns(this.company3Branches);
-            branchRepositoryMock.Setup(x => x.GetBranchesForCompany(It.IsAny<int>(), 10)).Returns((int companyId, int branchType) => new string[] { String.Format("{0}_{1}", companyId, branchType) });
-            branchRepositoryMock.Setup(x => x.GetBranchesForCompany(It.Is<int>(cid => cid > 10), It.IsAny<int>())).Returns(new string[0]);
-            branchRepositoryMock.Setup(x => x.GetBranchesForCompany(100, It.IsAny<int>())).Throws(new InvalidOperationException("Company doesn't exist"));
-            int itemCount = 100;
-            branchRepositoryMock.Setup(x => x.GetBranchPage(It.IsAny<int>(), It.IsAny<int>(), out itemCount)).Returns(this.allBranches);
-            branchRepositoryMock.Setup(x => x.CompanyCount).Returns(23);
-            branchRepositoryMock.SetupProperty(x => x.Connection, "TEST");
-            branchRepositoryMock.Setup(x => x.Ping()).Returns(true);
-            branchRepositoryMock.Protected().Setup<string>("GetRepositoryType").Returns("MyRepository");
-
-            branchRepository = branchRepositoryMock.Object;
+            
         }
 
         [Test]
@@ -126,26 +110,22 @@ namespace MoqPractice.BL.Tests
         public void MockedMethodCallback_WrapperMethodCalled_MockedMethodCalledAsExpected()
         {
             List<string> branchesAdded = new List<string>();
-            branchRepositoryMock.Setup(x => x.CreateBranch(It.IsAny<string>())).Returns(true).Callback((string bn) => branchesAdded.Add(bn));
-            branchRepositoryMock.CallBase = true;
+            // setup CreateBranch() so that it adds the parameter it has been called with to branchesAdded 
 
             branchRepository.AddBranches(new string[] { "XXX", "YYY", "ZZZ" });
             Assert.AreEqual(new string[] { "XXX", "YYY", "ZZZ" }, branchesAdded);
 
-            branchRepositoryMock.Verify(x => x.CreateBranch("XXX"), Times.Once);
-            branchRepositoryMock.Verify(x => x.CreateBranch("YYY"), Times.Once);
-            branchRepositoryMock.Verify(x => x.CreateBranch("ZZZ"), Times.Once);
-            branchRepositoryMock.Verify(x => x.CreateBranch("UUU"), Times.Never, "The method has been called with the UUU branch.");
-            branchRepositoryMock.Verify(x => x.CreateBranch(It.IsAny<string>()), Times.Exactly(3));
+            // add verification here
         }
 
         [Test]
         public void MockedInterface_MethodMocked_ReturnsProperValue()
         {
-            var mock = new Mock<IGreeter>();
-            IGreeter greeter = mock.Object;
 
-            mock.Setup(x => x.GetGreeting(It.IsAny<string>())).Returns((string name) => String.Format("Hello {0}!", name));
+            // create a mock here
+            IGreeter greeter = null; // set to the mock implementation
+
+            // setup GetGreeting() here to return String.Format("Hello {0}!", name);
 
             string r = greeter.GetGreeting("World");
             Assert.That(r == "Hello World!");

@@ -1,0 +1,55 @@
+[assembly: InternalsVisibleTo("MoqPractice.BL.Tests")]
+[assembly: InternalsVisibleTo("DynamicProxyGenAssembly2")]
+
+
+Mock<BranchRepository> branchRepositoryMock;
+
+[SetUp]
+public void SetUp()
+{
+    branchRepositoryMock = new Mock<BranchRepository>(MockBehavior.Loose);
+
+    branchRepositoryMock.Setup(x => x.GetAllBranches()).Returns(this.allBranches);
+    branchRepositoryMock.Setup(x => x.GetBranchesForCompany(It.IsAny<int>(), It.IsAny<int>())).Returns(this.allBranches);
+    branchRepositoryMock.Setup(x => x.GetBranchesForCompany(3, It.IsAny<int>())).Returns(this.company3Branches);
+    branchRepositoryMock.Setup(x => x.GetBranchesForCompany(It.IsAny<int>(), 10)).Returns((int companyId, int branchType) => new string[] { String.Format("{0}_{1}", companyId, branchType) });
+    branchRepositoryMock.Setup(x => x.GetBranchesForCompany(It.Is<int>(cid => cid > 10), It.IsAny<int>())).Returns(new string[0]);
+    branchRepositoryMock.Setup(x => x.GetBranchesForCompany(100, It.IsAny<int>())).Throws(new InvalidOperationException("Company doesn't exist"));
+    int itemCount = 100;
+    branchRepositoryMock.Setup(x => x.GetBranchPage(It.IsAny<int>(), It.IsAny<int>(), out itemCount)).Returns(this.allBranches);
+    branchRepositoryMock.Setup(x => x.CompanyCount).Returns(23);
+    branchRepositoryMock.SetupProperty(x => x.Connection, "TEST");
+    branchRepositoryMock.Setup(x => x.Ping()).Returns(true);
+    branchRepositoryMock.Protected().Setup<string>("GetRepositoryType").Returns("MyRepository");
+
+    branchRepository = branchRepositoryMock.Object;
+}
+
+[Test]
+public void MockedMethodCallback_WrapperMethodCalled_MockedMethodCalledAsExpected()
+{
+    List<string> branchesAdded = new List<string>();
+    branchRepositoryMock.Setup(x => x.CreateBranch(It.IsAny<string>())).Returns(true).Callback((string bn) => branchesAdded.Add(bn));
+    branchRepositoryMock.CallBase = true;
+
+    branchRepository.AddBranches(new string[] { "XXX", "YYY", "ZZZ" });
+    Assert.AreEqual(new string[] { "XXX", "YYY", "ZZZ" }, branchesAdded);
+
+    branchRepositoryMock.Verify(x => x.CreateBranch("XXX"), Times.Once);
+    branchRepositoryMock.Verify(x => x.CreateBranch("YYY"), Times.Once);
+    branchRepositoryMock.Verify(x => x.CreateBranch("ZZZ"), Times.Once);
+    branchRepositoryMock.Verify(x => x.CreateBranch("UUU"), Times.Never, "The method has been called with the UUU branch.");
+    branchRepositoryMock.Verify(x => x.CreateBranch(It.IsAny<string>()), Times.Exactly(3));
+}
+
+[Test]
+public void MockedInterface_MethodMocked_ReturnsProperValue()
+{
+    var mock = new Mock<IGreeter>();
+    IGreeter greeter = mock.Object;
+
+    mock.Setup(x => x.GetGreeting(It.IsAny<string>())).Returns((string name) => String.Format("Hello {0}!", name));
+
+    string r = greeter.GetGreeting("World");
+    Assert.That(r == "Hello World!");
+}

@@ -9,6 +9,12 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MoqPractice.BL", "MoqPracti
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MoqPractice.BL.Tests", "MoqPractice.BL.Tests\MoqPractice.BL.Tests.csproj", "{D27BA695-0077-4613-8990-D0E7BFEFE4E7}"
 EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{3EEB909E-40BD-46EC-8C20-BF97C4C24BA8}"
+	ProjectSection(SolutionItems) = preProject
+		answer.txt = answer.txt
+		readme.md = readme.md
+	EndProjectSection
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
